@@ -6,6 +6,9 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import DesignSystemPage from './pages/DesignSystemPage'
 import LogInPage from './pages/LogInPage'
 import RegisterPage from './pages/RegisterPage'
+import CartPage from './pages/CartPage'
+import SingleProductPage from './pages/SingleProductPage'
+import ProfilePage from './pages/ProfilePage'
 function App() {
   return (
     <Switch>
@@ -14,6 +17,9 @@ function App() {
       <Route exact path="/design-system" component={DesignSystemPage} />
       <Route exact path="/login" component={LogInPage} />
       <Route exact path="/register" component={RegisterPage} />
+      <Route exact path="/cart" component={CartPage} />
+      <Route exact path="/product/:id" component={SingleProductPage} />
+      <Route exact path="/profile" component={ProfilePage} />
     </Switch>
   )
 }

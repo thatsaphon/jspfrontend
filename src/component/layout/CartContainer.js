@@ -10,16 +10,13 @@ import {
   Box,
   Input
 } from '@chakra-ui/react'
-import { useHistory } from 'react-router-dom'
 
 function ProductContainer() {
-  const history = useHistory()
-
   return (
     <Center>
       <Box w="750px" m="2">
         <Heading mx="10px" my="10px">
-          รายการสินค้า
+          ตะกร้าสินค้า
         </Heading>
         <Container
           border="1px solid black"
@@ -40,21 +37,10 @@ function ProductContainer() {
               <Flex mt="2">
                 <Text mx="1">- </Text> <Text mx="1"> +</Text>
               </Flex>
-              <Text>Add to Cart</Text>
+              {/* <Text>Add to Cart</Text> */}
             </Flex>
           </Flex>
-          <Flex direction="row-reverse">
-            <Text
-              onClick={() => history.push('/product')}
-              _hover={{
-                boxShadow: 'lg',
-                cursor: 'pointer',
-                rounded: 'xl'
-              }}
-            >
-              ดูสินค้าทั้งหมด
-            </Text>
-          </Flex>
+          <Flex direction="row-reverse">ลบสินค้าจากตะกร้าทั้งหมด</Flex>
         </Container>
       </Box>
     </Center>

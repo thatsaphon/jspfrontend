@@ -1,3 +1,4 @@
+import { useForm } from 'react-hook-form'
 import { Button } from '@chakra-ui/button'
 import { Input } from '@chakra-ui/input'
 import {
@@ -9,10 +10,44 @@ import {
   Text,
   Wrap
 } from '@chakra-ui/layout'
-import React from 'react'
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Alert,
+  AlertIcon,
+  AlertTitle
+} from '@chakra-ui/react'
+import { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
 import Header from '../component/layout/Header'
+import localStorageService from '../services/localStorageService'
+import axios from 'axios'
+import { AuthContext } from '../contexts/AuthContextProvider'
 
 function LogInPage() {
+  const history = useHistory()
+  const { setIsAuthenticated } = useContext(AuthContext)
+  const {
+    handleSubmit,
+    register,
+    formState: { errors }
+  } = useForm()
+
+  const onSubmit = async (data) => {
+    try {
+      console.log(data)
+      const res = await axios.post('http://localhost:8000/login', data)
+      console.log(res)
+      localStorageService.setToken(res.data.token)
+      setIsAuthenticated(true)
+      history.push('/')
+    } catch (err) {
+      console.dir(err)
+    }
+  }
+
   return (
     <Box>
       <Header />
@@ -36,16 +71,51 @@ function LogInPage() {
           >
             Log-in
           </Text>
-          <Input placeholder="username" size="sm" bg="muted.100" mb={2} />
-          <Input placeholder="password" size="sm" bg="muted.100" mb={2} />
-          <Flex align="center" direction="column">
-            <Button bg="blueMain.100" mt={3}>
-              Log in
-            </Button>
-            <Text as="u">forget-password</Text>
-            <Center w="300px" borderBottom="1px solid gray" mt="3"></Center>
-            <Text as="u">register</Text>
-          </Flex>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              {...register('username', { required: 'username is required' })}
+              type="text"
+              placeholder="username"
+              size="sm"
+              bg="muted.100"
+            />
+            {errors.username && (
+              <Text color="red" fontSize="sm" px="3">
+                {errors.username.message}
+              </Text>
+            )}
+            <Input
+              {...register('password', { required: 'password is required' })}
+              type="password"
+              placeholder="password"
+              size="sm"
+              bg="muted.100"
+              my={2}
+            />
+            {errors.password && (
+              <Text color="red" fontSize="sm" px="3">
+                {errors.password.message}
+              </Text>
+            )}
+            <Flex align="center" direction="column">
+              <Button type="submit" bg="blueMain.100" mt={3}>
+                Log in
+              </Button>
+              <Text as="u">forget-password</Text>
+              <Center w="300px" borderBottom="1px solid gray" mt="3"></Center>
+              <Text
+                as="u"
+                onClick={() => history.push('/register')}
+                _hover={{
+                  boxShadow: 'md',
+                  cursor: 'pointer'
+                }}
+                _active={{ boxShadow: 'lg' }}
+              >
+                register
+              </Text>
+            </Flex>
+          </form>
         </Box>
       </Wrap>
     </Box>

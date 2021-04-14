@@ -7,15 +7,18 @@ import { ChakraProvider } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom'
 import { theme } from './styles/theme'
 import Fonts from './styles/Fonts'
+import AuthContextProvider from './contexts/AuthContextProvider'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <ChakraProvider theme={theme}>
-        <Fonts />
-        <App />
-      </ChakraProvider>
-    </BrowserRouter>
+    <AuthContextProvider>
+      <BrowserRouter>
+        <ChakraProvider theme={theme}>
+          <Fonts />
+          <App />
+        </ChakraProvider>
+      </BrowserRouter>
+    </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 )

@@ -20,7 +20,7 @@ import TextContent from '../component/layout/TextContent'
 
 function HomePage() {
   return (
-    <Box p={[2, 3]}>
+    <Box>
       <Header />
       <Logo />
       <TextContent />
