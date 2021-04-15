@@ -1,18 +1,23 @@
 import { Avatar } from '@chakra-ui/avatar'
-import {
-  Box,
-  Center,
-  Circle,
-  Flex,
-  Grid,
-  Spacer,
-  Text,
-  Wrap
-} from '@chakra-ui/layout'
-import React from 'react'
+import { Box, Center, Circle, Flex, Text, Wrap } from '@chakra-ui/layout'
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs'
+import axios from '../config/axios'
+import { useEffect, useState } from 'react'
 import Header from '../component/layout/Header'
+import UserOrder from '../component/profile/UserOrder'
+import UserProfile from '../component/profile/UserProfile'
+import UserSummary from '../component/profile/UserSummary'
 
 function ProfilePage() {
+  const [orders, setOrders] = useState([])
+  useEffect(() => {
+    const fetchOrder = async () => {
+      const res = await axios.get('/order')
+      setOrders(res.data.order)
+    }
+    fetchOrder()
+  }, [])
+
   return (
     <Box>
       <Header />
@@ -33,65 +38,26 @@ function ProfilePage() {
           </Flex>
         </Center>
         <Flex direction="column">
-          <Wrap>
-            <Text
-              fontSize="sm"
-              border="1px solid"
-              borderColor="blueMain.100"
-              p={2}
-            >
-              ประวัติการซื้อ
-            </Text>
-            <Text
-              fontSize="sm"
-              border="1px solid"
-              borderColor="blueMain.100"
-              p={2}
-            >
-              ข้อมูลส่วนตัว
-            </Text>
-          </Wrap>
-          <Flex
-            // border="1px solid"
-            // borderColor="blueMain.100"
-            minW="350px"
-            bg="muted.300"
-            mt={2}
-            p={3}
-            direction="column"
-            rounded="20px"
-          >
-            <Text>ชื่อ</Text>
-            <Text>ที่อยู่</Text>
-            <Text>เบอร์โทรศัพท์</Text>
-            <Text>อีเมล</Text>
-          </Flex>
-          <Flex
-            // border="1px solid"
-            // borderColor="blueMain.100"
-            minW="350px"
-            bg="muted.300"
-            mt={2}
-            p={3}
-            direction="column"
-            rounded="20px"
-          >
-            <Flex
-              border="1px solid"
-              borderColor="blueMain.200"
-              fontSize="sm"
-              p={3}
-              align="center"
-              rounded="20px"
-            >
-              <Grid gridGap={2}>
-                <Text>หมายเลขคำสั่งซื้อ</Text>
-                <Text>วันที่สั่งซื้อ</Text>
-              </Grid>
-              <Spacer />
-              <Text>800</Text>
-            </Flex>
-          </Flex>
+          <Tabs>
+            <TabList>
+              <Tab>ข้อมูลส่วนตัว</Tab>
+              <Tab>ประวัติการซื้อ</Tab>
+              <Tab>สรุปยอดซื้อ</Tab>
+            </TabList>
+
+            <TabPanels>
+              <TabPanel>
+                <UserProfile />
+              </TabPanel>
+
+              <TabPanel>
+                <UserOrder orders={orders} />
+              </TabPanel>
+              <TabPanel>
+                <UserSummary orders={orders} />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </Flex>
       </Wrap>
     </Box>

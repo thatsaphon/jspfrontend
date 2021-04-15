@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage'
 import CartPage from './pages/CartPage'
 import SingleProductPage from './pages/SingleProductPage'
 import ProfilePage from './pages/ProfilePage'
+import SingleOrderPage from './pages/SingleOrderPage'
 function App() {
   return (
     <Switch>
@@ -20,6 +21,7 @@ function App() {
       <Route exact path="/cart" component={CartPage} />
       <Route exact path="/product/:id" component={SingleProductPage} />
       <Route exact path="/profile" component={ProfilePage} />
+      <Route exact path="/order/:id" component={SingleOrderPage} />
     </Switch>
   )
 }

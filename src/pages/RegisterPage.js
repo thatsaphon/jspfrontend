@@ -4,7 +4,7 @@ import Header from '../component/layout/Header'
 import { Button } from '@chakra-ui/button'
 import { useContext, useEffect, useState } from 'react'
 import { Select } from '@chakra-ui/select'
-import axios from 'axios'
+import axios from '../config/axios'
 import { useHistory } from 'react-router'
 import { AuthContext } from '../contexts/AuthContextProvider'
 import localStorageService from '../services/localStorageService'
@@ -27,21 +27,17 @@ function RegisterPage() {
   const { setIsAuthenticated } = useContext(AuthContext)
 
   const fetchProvince = async () => {
-    const res = await axios.get('http://localhost:8000/location/province')
+    const res = await axios.get('/location/province')
     setProvinces(res.data.provinces)
   }
   const fetchDistrict = async () => {
     if (!address.province) return null
-    const res = await axios.get(
-      'http://localhost:8000/location/district/' + address.province
-    )
+    const res = await axios.get('/location/district/' + address.province)
     setDistricts(res.data.districts)
   }
   const fetchSubDistrict = async () => {
     if (!address.district) return null
-    const res = await axios.get(
-      'http://localhost:8000/location/subdistrict/' + address.district
-    )
+    const res = await axios.get('/location/subdistrict/' + address.district)
     setSubDistricts(res.data.subDistricts)
   }
   useEffect(() => {
@@ -74,7 +70,7 @@ function RegisterPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault()
-    const res = await axios.post('http://localhost:8000/register', {
+    const res = await axios.post('/register', {
       username,
       password,
       firstName,

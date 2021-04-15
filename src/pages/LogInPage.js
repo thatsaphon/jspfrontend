@@ -23,12 +23,14 @@ import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../component/layout/Header'
 import localStorageService from '../services/localStorageService'
-import axios from 'axios'
+import axios from '../config/axios'
 import { AuthContext } from '../contexts/AuthContextProvider'
+import { CartContext } from '../contexts/CartContextProvider'
 
 function LogInPage() {
   const history = useHistory()
   const { setIsAuthenticated } = useContext(AuthContext)
+  const { fetchCart } = useContext(CartContext)
   const {
     handleSubmit,
     register,
@@ -38,13 +40,15 @@ function LogInPage() {
   const onSubmit = async (data) => {
     try {
       console.log(data)
-      const res = await axios.post('http://localhost:8000/login', data)
+      const res = await axios.post('/login', data)
       console.log(res)
       localStorageService.setToken(res.data.token)
       setIsAuthenticated(true)
+      fetchCart()
       history.push('/')
     } catch (err) {
       console.dir(err)
+      console.log(err)
     }
   }
 

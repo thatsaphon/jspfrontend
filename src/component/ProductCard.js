@@ -1,4 +1,4 @@
-import React from 'react'
+import { useContext } from 'react'
 import {
   AspectRatio,
   Badge,
@@ -12,44 +12,78 @@ import {
   Text,
   Wrap,
   Stack,
-  Button
+  Button,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper
 } from '@chakra-ui/react'
+import { useForm } from 'react-hook-form'
+import axios from '../config/axios'
+import { CartContext } from '../contexts/CartContextProvider'
 
-const ProductCard = () => {
+const ProductCard = ({ productId, name, description, price, imgPath }) => {
+  const { register, handleSubmit } = useForm()
+  const { fetchCart } = useContext(CartContext)
+  const handleAddToCart = async (data) => {
+    try {
+      const newData = { ...data, productId }
+      const res = await axios.post('/cart/user', newData)
+      fetchCart()
+    } catch (err) {
+      console.dir(err)
+    }
+  }
+
   return (
     <div>
       <Box w="300px" rounded="20px" overflow="hidden" bg="muted.300">
-        <Image src={'./img/Slide1.JPG'} alt="product" />
+        <Center w="300px" h="150px" overflow="hidden">
+          <Image src={imgPath} alt="product" />
+        </Center>
         <Box px={5} py={2}>
-          <Badge
-            variant="solid"
-            bg="orangeMain.200"
-            rounded="full"
-            px="2"
-            my={2}
-          >
-            Promotion
-          </Badge>
-          <Box>
-            <Text fontSize="sm">กาวดำ</Text>
-            <Text fontSize="sm" noOfLines={[1, 2]}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate
-              temporibus sunt, cupiditate quod dolore minus porro ullam ex
-              ratione amet unde aliquam repudiandae eos. Doloribus corrupti
-              accusantium hic dolor at.
-            </Text>
-            <Text fontSize="sm">ราคา 150.-</Text>
-          </Box>
-          <Flex justify="flex-end">
-            <Button
-              fontSize="sm"
-              bg="blueMain.100"
-              _hover={{ boxShadow: 'md' }}
-              _active={{ boxShadow: 'lg', bg: 'blueMain.200' }}
+          <Flex align="baseline">
+            <Badge
+              variant="solid"
+              bg="orangeMain.200"
+              rounded="full"
+              px="2"
+              my={2}
             >
-              เพิ่มในตะกร้า
-            </Button>
+              Promotion
+            </Badge>{' '}
+            <Text ml={2} fontSize="sm">
+              จำนวนในรถเข็น
+            </Text>
           </Flex>
+          <Box>
+            <Text fontSize="sm">{name}</Text>
+            <Text fontSize="sm" noOfLines={[1, 2]}>
+              {description}
+            </Text>
+            <Text fontSize="sm">ราคา {price}.-</Text>
+          </Box>
+          <form onSubmit={handleSubmit(handleAddToCart)}>
+            <Flex justify="flex-end">
+              <NumberInput min={0} mx={2}>
+                <NumberInputField {...register('quantity')} bg="muted.100" />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+              <Button
+                type="submit"
+                fontSize="sm"
+                bg="blueMain.100"
+                _hover={{ boxShadow: 'md' }}
+                _active={{ boxShadow: 'lg', bg: 'blueMain.200' }}
+              >
+                เพิ่มไปยังรถเข็น
+              </Button>
+            </Flex>
+          </form>
         </Box>
       </Box>
       {/*<Wrap*/}

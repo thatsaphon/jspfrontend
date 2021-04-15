@@ -4,14 +4,17 @@ import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
 import { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { AuthContext } from '../../contexts/AuthContextProvider'
+import { CartContext } from '../../contexts/CartContextProvider'
 import localStorageService from '../../services/localStorageService'
 
 function AvatarMenu(children) {
   const { setIsAuthenticated } = useContext(AuthContext)
+  const { setCart } = useContext(CartContext)
   const history = useHistory()
   const handleLogout = () => {
     localStorageService.clearToken()
     setIsAuthenticated(false)
+    setCart([])
   }
   return (
     <Menu>

@@ -8,16 +8,22 @@ import { BrowserRouter } from 'react-router-dom'
 import { theme } from './styles/theme'
 import Fonts from './styles/Fonts'
 import AuthContextProvider from './contexts/AuthContextProvider'
+import CartContextProvider from './contexts/CartContextProvider'
+import ProfileContextProvider from './contexts/ProfileContextProvider'
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          <Fonts />
-          <App />
-        </ChakraProvider>
-      </BrowserRouter>
+      <CartContextProvider>
+        <ProfileContextProvider>
+          <BrowserRouter>
+            <ChakraProvider theme={theme}>
+              <Fonts />
+              <App />
+            </ChakraProvider>
+          </BrowserRouter>
+        </ProfileContextProvider>
+      </CartContextProvider>
     </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')

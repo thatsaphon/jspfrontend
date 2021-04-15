@@ -70,7 +70,6 @@ function Header() {
           Cart
         </Text>
         <Spacer />
-        {console.log(isAuthenticated)}
         {!isAuthenticated && (
           <Text
             mx="2"
