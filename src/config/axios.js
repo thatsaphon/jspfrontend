@@ -10,7 +10,10 @@ axios.interceptors.request.use(
       localStorageService.getToken().startsWith('{')
     )
       config.headers.Authorization = localStorageService.getToken()
-    if (localStorageService.getToken())
+    if (
+      localStorageService.getToken() &&
+      !localStorageService.getToken().startsWith('{')
+    )
       config.headers.Authorization = `Bearer ${localStorageService.getToken()}`
     return config
   },

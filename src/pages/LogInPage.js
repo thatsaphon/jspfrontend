@@ -1,15 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { Button } from '@chakra-ui/button'
 import { Input } from '@chakra-ui/input'
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  Stack,
-  Text,
-  Wrap
-} from '@chakra-ui/layout'
+import { Box, Center, Flex, Text, Wrap } from '@chakra-ui/layout'
 import {
   FormControl,
   FormLabel,
@@ -39,16 +31,13 @@ function LogInPage() {
 
   const onSubmit = async (data) => {
     try {
-      console.log(data)
       const res = await axios.post('/login', data)
-      console.log(res)
       localStorageService.setToken(res.data.token)
       setIsAuthenticated(true)
       fetchCart()
       history.push('/')
     } catch (err) {
       console.dir(err)
-      console.log(err)
     }
   }
 

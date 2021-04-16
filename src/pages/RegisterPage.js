@@ -1,5 +1,5 @@
 import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
-import { Box, Wrap, Text, Flex, Center } from '@chakra-ui/layout'
+import { Box, Wrap, Text, Flex } from '@chakra-ui/layout'
 import Header from '../component/layout/Header'
 import { Button } from '@chakra-ui/button'
 import { useContext, useEffect, useState } from 'react'
@@ -22,7 +22,6 @@ function RegisterPage() {
   const [provinces, setProvinces] = useState([])
   const [districts, setDistricts] = useState([])
   const [subDistricts, setSubDistricts] = useState([])
-  const [postCodes, setPostCodes] = useState([])
 
   const { setIsAuthenticated } = useContext(AuthContext)
 

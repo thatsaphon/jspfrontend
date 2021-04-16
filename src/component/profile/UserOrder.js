@@ -1,6 +1,4 @@
-import { Box, Flex, Grid, Spacer, Text, Wrap } from '@chakra-ui/layout'
-import axios from '../../config/axios'
-import { useEffect, useState } from 'react'
+import { Box, Flex, Grid, Spacer, Text } from '@chakra-ui/layout'
 import { useHistory } from 'react-router-dom'
 
 function UserOrder({ orders }) {

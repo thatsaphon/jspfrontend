@@ -86,19 +86,7 @@ function Header() {
             Log-in
           </Text>
         )}
-        {isAuthenticated && (
-          <AvatarMenu />
-          // <Avatar
-          //   name="Thatsaphon Sukanantatham"
-          //   onClick={() => history.push('/profile')}
-          //   _hover={{
-          //     boxShadow: 'md',
-          //     cursor: 'pointer',
-          //     border: '1px'
-          //   }}
-          //   _active={{ boxShadow: 'lg' }}
-          // />
-        )}
+        {isAuthenticated && <AvatarMenu />}
       </Flex>
     </Center>
   )

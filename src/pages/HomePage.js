@@ -1,18 +1,4 @@
-import {
-  Center,
-  Box,
-  Image,
-  Container,
-  Flex,
-  Spacer,
-  Text,
-  Grid,
-  GridItem,
-  AspectRatio,
-  Heading,
-  Wrap,
-  Avatar
-} from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import Header from '../component/layout/Header'
 import Logo from '../component/layout/Logo'
 import ProductContainer from '../component/layout/ProductContainer'

@@ -1,5 +1,4 @@
 import { Avatar } from '@chakra-ui/avatar'
-import { Box } from '@chakra-ui/layout'
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/menu'
 import { useContext } from 'react'
 import { useHistory } from 'react-router'

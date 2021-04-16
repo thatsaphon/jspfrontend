@@ -11,19 +11,34 @@ import {
   Stack,
   Wrap
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from '../config/axios'
-// import axios from 'axios'
+import { ProfileContext } from '../contexts/ProfileContextProvider'
+import { CartContext } from '../contexts/CartContextProvider'
 
 function ProductPage() {
+  const { cart } = useContext(CartContext)
+
   const [products, setProducts] = useState([])
   useEffect(() => {
     const fetchProduct = async () => {
-      const res = await axios.get('/product')
-      setProducts(res.data.products)
+      try {
+        const res = await axios.get('/product')
+        setProducts(res.data.products)
+      } catch (err) {
+        console.dir(err)
+      }
     }
     fetchProduct()
   }, [])
+  const productQuantity = products.map((product, index) => {
+    for (let i = 0; i <= cart.length; i++) {
+      if (i === cart.length) return { ...product, cartQuantity: 0 }
+      if (product.id === cart[i].productId)
+        return { ...product, cartQuantity: cart[i].quantity }
+    }
+  })
+  console.log(products)
   return (
     <Box bg="gray.50">
       <Header />
@@ -32,7 +47,7 @@ function ProductPage() {
         <Heading mb={5}>รายการสินค้า</Heading>
         <Container maxW={'container.md'}>
           <Flex gridGap={5} gridColumnGap={10} justify="center" wrap="wrap">
-            {products.map((item, index) => (
+            {productQuantity.map((item, index) => (
               <ProductCard
                 key={item.id}
                 productId={item.id}
@@ -40,6 +55,7 @@ function ProductPage() {
                 description={item.description}
                 price={item.price}
                 imgPath={item.imgPath}
+                cartQuantity={+item.cartQuantity}
               />
             ))}
           </Flex>

@@ -5,14 +5,12 @@ import {
   Container,
   Flex,
   Heading,
-  Input,
   Spacer,
-  Text,
-  Textarea
+  Text
 } from '@chakra-ui/react'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../component/layout/Header'
-import ProductContainer from '../component/layout/CartContainer'
+import CartContainer from '../component/cart/CartContainer'
 import { CartContext } from '../contexts/CartContextProvider'
 import axios from '../config/axios'
 import { useHistory } from 'react-router-dom'
@@ -20,6 +18,7 @@ import localStorageService from '../services/localStorageService'
 import { ProfileContext } from '../contexts/ProfileContextProvider'
 import OrderAddress from '../component/sales/OrderAddress'
 import { useForm } from 'react-hook-form'
+import RemoveAllFromCartButton from '../component/cart/RemoveAllFromCartButton'
 
 function CartPage() {
   const history = useHistory()
@@ -37,6 +36,11 @@ function CartPage() {
   useEffect(() => {
     if (profile.firstName) setIsFetchAddress(true)
   }, [profile.firstName])
+
+  const handleRemoveAllFromCart = async () => {
+    await axios.delete('/cart/user')
+    fetchCart()
+  }
 
   return (
     <Box>
@@ -57,7 +61,7 @@ function CartPage() {
               total += item.Product.price * item.quantity
 
               return (
-                <ProductContainer
+                <CartContainer
                   key={item.id}
                   cartItemId={item.id}
                   product={item.Product.name}
@@ -96,7 +100,7 @@ function CartPage() {
             </form>
           </Container>
           <Flex direction="row-reverse" mt={3}>
-            นำสินค้าออกจากรถเข็นทั้งหมด
+            <RemoveAllFromCartButton fetchCart={fetchCart} axios={axios} />
           </Flex>
         </Box>
       </Center>

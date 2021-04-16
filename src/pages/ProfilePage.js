@@ -12,8 +12,12 @@ function ProfilePage() {
   const [orders, setOrders] = useState([])
   useEffect(() => {
     const fetchOrder = async () => {
-      const res = await axios.get('/order')
-      setOrders(res.data.order)
+      try {
+        const res = await axios.get('/order')
+        setOrders(res.data.order)
+      } catch (err) {
+        console.dir(err)
+      }
     }
     fetchOrder()
   }, [])

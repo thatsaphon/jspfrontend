@@ -23,13 +23,20 @@ import { useForm } from 'react-hook-form'
 import axios from '../config/axios'
 import { CartContext } from '../contexts/CartContextProvider'
 
-const ProductCard = ({ productId, name, description, price, imgPath }) => {
+const ProductCard = ({
+  productId,
+  name,
+  description,
+  price,
+  imgPath,
+  cartQuantity
+}) => {
   const { register, handleSubmit } = useForm()
   const { fetchCart } = useContext(CartContext)
   const handleAddToCart = async (data) => {
     try {
       const newData = { ...data, productId }
-      const res = await axios.post('/cart/user', newData)
+      await axios.post('/cart/user', newData)
       fetchCart()
     } catch (err) {
       console.dir(err)
@@ -50,12 +57,14 @@ const ProductCard = ({ productId, name, description, price, imgPath }) => {
               rounded="full"
               px="2"
               my={2}
+              fontWeight="normal"
             >
-              Promotion
-            </Badge>{' '}
-            <Text ml={2} fontSize="sm">
-              จำนวนในรถเข็น
-            </Text>
+              {/* Promotion */}
+              จำนวนในรถเข็น {cartQuantity}
+            </Badge>
+            {/* <Text ml={2} fontSize="sm">
+              จำนวนในรถเข็น {cartQuantity}
+            </Text> */}
           </Flex>
           <Box>
             <Text fontSize="sm">{name}</Text>

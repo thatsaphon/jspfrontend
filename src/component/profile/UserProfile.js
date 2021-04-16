@@ -6,9 +6,13 @@ function UserProfile() {
   const [profile, setProfile] = useState({})
   useEffect(() => {
     const fetchProfile = async () => {
-      const res = await axios.get('/user/me')
-      console.log(res)
-      setProfile(res.data)
+      try {
+        const res = await axios.get('/user/me')
+        console.log(res)
+        setProfile(res.data)
+      } catch (err) {
+        console.dir(err)
+      }
     }
     fetchProfile()
   }, [])
