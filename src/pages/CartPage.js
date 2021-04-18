@@ -22,13 +22,23 @@ import RemoveAllFromCartButton from '../component/cart/RemoveAllFromCartButton'
 
 function CartPage() {
   const history = useHistory()
-  const { cart, fetchCart } = useContext(CartContext)
+  const { cart, setCart, fetchCart } = useContext(CartContext)
   const [isFetchAddress, setIsFetchAddress] = useState(false)
   let total = 0
   const handleConfirmOrder = async (data) => {
-    const res = await axios.post('/order', data)
-    fetchCart()
-    history.push('/order/' + res.data.orderId)
+    if (!profile.id) {
+      const cartItemId = cart.map((item, index) => item.id)
+      const newData = { ...data, cartItemId }
+      const res = await axios.post('/order/guest', newData)
+      console.log(res.data.orderId)
+      localStorageService.clearToken()
+      setCart([])
+      history.push('/order/' + res.data.orderId)
+    } else {
+      const res = await axios.post('/order', data)
+      fetchCart()
+      history.push('/order/' + res.data.orderId)
+    }
   }
   const { profile, fetchProfile } = useContext(ProfileContext)
   const { register, handleSubmit } = useForm()
@@ -70,12 +80,16 @@ function CartPage() {
                   quantity={item.quantity}
                   productId={item.productId}
                   imgPath={item.Product.imgPath}
+                  profile={profile}
                 />
               )
             })}
             <form onSubmit={handleSubmit(handleConfirmOrder)}>
               <Flex mt={3}>
                 {isFetchAddress && (
+                  <OrderAddress profile={profile} register={register} />
+                )}
+                {!isFetchAddress && (
                   <OrderAddress profile={profile} register={register} />
                 )}
                 <Spacer />

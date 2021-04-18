@@ -7,27 +7,29 @@ export const CartContext = createContext()
 function CartContextProvider({ children }) {
   const [cart, setCart] = useState([])
   const fetchCart = async () => {
-    if (
-      localStorageService.getToken() &&
-      !localStorageService.getToken().startsWith('{')
-    ) {
-      const res = await axios.get('/cart/user')
-      setCart(res.data.cart)
-    }
-    if (
-      !localStorageService.getToken() ||
-      localStorageService.getToken().startsWith('{')
-    ) {
-      const res = await axios.get('/cart')
-      console.log(res.data.token)
-      setCart(res.data.cart)
-      localStorageService.setToken(res.data.token)
+    try {
+      if (
+        localStorageService.getToken() &&
+        !localStorageService.getToken().startsWith('{')
+      ) {
+        const res = await axios.get('/cart/user')
+      }
+      if (
+        !localStorageService.getToken() ||
+        localStorageService.getToken().startsWith('{')
+      ) {
+        const res = await axios.get('/cart')
+        console.log(res.data.token)
+        setCart(res.data.cart)
+        localStorageService.setToken(res.data.token)
+      }
+    } catch (err) {
+      console.log(err)
     }
   }
   useEffect(() => {
     fetchCart()
   }, [])
-  console.log(cart)
   return (
     <CartContext.Provider value={{ cart, setCart, fetchCart }}>
       {children}

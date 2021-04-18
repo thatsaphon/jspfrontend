@@ -24,7 +24,8 @@ function ProductContainer({
   quantity,
   price,
   productId,
-  imgPath
+  imgPath,
+  profile
 }) {
   const { register, handleSubmit, watch } = useForm()
   const { fetchCart } = useContext(CartContext)
@@ -32,8 +33,9 @@ function ProductContainer({
     try {
       const newData = { ...data, productId }
       console.log(newData)
-      if (data.quantity !== '0') await axios.post('/cart/user', newData)
-      // if (data.quantity === '0') await axios.put('/cart/user', newData)
+      if (!profile.id) {
+        await axios.post('/cart', { ...newData, unitPrice: price })
+      } else if (data.quantity !== '0') await axios.post('/cart/user', newData)
       fetchCart()
     } catch (err) {
       console.log(err)

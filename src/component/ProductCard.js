@@ -22,6 +22,9 @@ import {
 import { useForm } from 'react-hook-form'
 import axios from '../config/axios'
 import { CartContext } from '../contexts/CartContextProvider'
+import { AuthContext } from '../contexts/AuthContextProvider'
+import { ProfileContext } from '../contexts/ProfileContextProvider'
+import localStorageService from '../services/localStorageService'
 
 const ProductCard = ({
   productId,
@@ -32,17 +35,25 @@ const ProductCard = ({
   cartQuantity
 }) => {
   const { register, handleSubmit } = useForm()
-  const { fetchCart } = useContext(CartContext)
+  const { fetchCart, cart, setCart } = useContext(CartContext)
+  const { profile } = useContext(ProfileContext)
   const handleAddToCart = async (data) => {
     try {
-      const newData = { ...data, productId }
-      await axios.post('/cart/user', newData)
-      fetchCart()
+      if (!profile.id) {
+        const newData = { ...data, productId, unitPrice: price }
+        console.log(newData)
+        const res = await axios.post('/cart', newData)
+        // localStorageService.setToken(res.data.token)
+        setCart(res.data.cart)
+      } else {
+        const newData = { ...data, productId }
+        await axios.post('/cart/user', newData)
+        fetchCart()
+      }
     } catch (err) {
       console.dir(err)
     }
   }
-
   return (
     <div>
       <Box w="300px" rounded="20px" overflow="hidden" bg="muted.300">

@@ -43,7 +43,11 @@ function OrderAddress({ profile, register }) {
         size="xs"
         borderColor="primary.200"
         _focus={{ borderColor: 'blueMain.200' }}
-        defaultValue={`${profile.textAddress} ${profile.subDistrict} ${profile.district} ${profile.province} ${profile.postCode}`}
+        defaultValue={`${profile.textAddress || ''} ${
+          profile.subDistrict || ''
+        } ${profile.district || ''} ${profile.province || ''} ${
+          profile.postCode || ''
+        }`}
       />
     </Box>
   )

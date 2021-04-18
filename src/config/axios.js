@@ -23,6 +23,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => response,
   (err) => {
+    console.log(err)
     if (err.response.status === 401) {
       localStorageService.clearToken()
       window.location.assign('/')
