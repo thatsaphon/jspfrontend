@@ -10,19 +10,38 @@ import CartPage from './pages/CartPage'
 import SingleProductPage from './pages/SingleProductPage'
 import ProfilePage from './pages/ProfilePage'
 import SingleOrderPage from './pages/SingleOrderPage'
+import AdminCreateProduct from './pages/AdminCreateProduct'
+import AdminManageProduct from './pages/AdminManageProduct'
+import AdminManageStock from './pages/AdminManageStock'
+import AdminManageOrder from './pages/AdminManageOrder'
+
 function App() {
   return (
-    <Switch>
-      <Route exact path="/" component={HomePage} />
-      <Route exact path="/product" component={ProductPage} />
-      <Route exact path="/design-system" component={DesignSystemPage} />
-      <Route exact path="/login" component={LogInPage} />
-      <Route exact path="/register" component={RegisterPage} />
-      <Route exact path="/cart" component={CartPage} />
-      <Route exact path="/product/:id" component={SingleProductPage} />
-      <Route exact path="/profile" component={ProfilePage} />
-      <Route exact path="/order/:id" component={SingleOrderPage} />
-    </Switch>
+    <>
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route exact path="/product" component={ProductPage} />
+        <Route exact path="/design-system" component={DesignSystemPage} />
+        <Route exact path="/login" component={LogInPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/cart" component={CartPage} />
+        <Route exact path="/product/:id" component={SingleProductPage} />
+        <Route exact path="/profile" component={ProfilePage} />
+        <Route exact path="/order/:id" component={SingleOrderPage} />
+        <Route
+          exact
+          path="/admin/create/product"
+          component={AdminCreateProduct}
+        />
+        <Route
+          exact
+          path="/admin/manage/product"
+          component={AdminManageProduct}
+        />
+        <Route exact path="/admin/manage/stock" component={AdminManageStock} />
+        <Route exact path="/admin/manage/order" component={AdminManageOrder} />
+      </Switch>
+    </>
   )
 }
 

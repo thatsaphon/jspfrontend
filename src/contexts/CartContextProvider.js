@@ -13,13 +13,13 @@ function CartContextProvider({ children }) {
         !localStorageService.getToken().startsWith('{')
       ) {
         const res = await axios.get('/cart/user')
+        setCart(res.data.cart)
       }
       if (
         !localStorageService.getToken() ||
         localStorageService.getToken().startsWith('{')
       ) {
         const res = await axios.get('/cart')
-        console.log(res.data.token)
         setCart(res.data.cart)
         localStorageService.setToken(res.data.token)
       }

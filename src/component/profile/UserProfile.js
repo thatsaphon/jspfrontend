@@ -16,7 +16,6 @@ function UserProfile() {
     }
     fetchProfile()
   }, [])
-  console.log(profile)
   return (
     <Box>
       <Text>

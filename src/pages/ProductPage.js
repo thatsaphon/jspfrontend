@@ -38,7 +38,8 @@ function ProductPage() {
         return { ...product, cartQuantity: cart[i].quantity }
     }
   })
-  console.log(products)
+  console.log(cart)
+  console.log(productQuantity)
   return (
     <Box bg="gray.50">
       <Header />

@@ -5,16 +5,24 @@ import {
   Avatar,
   Text,
   Image,
-  Square
+  Square,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button
 } from '@chakra-ui/react'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContextProvider'
+import { ProfileContext } from '../../contexts/ProfileContextProvider'
 import AvatarMenu from './AvatarMenu'
 
 function Header() {
   const history = useHistory()
   const { isAuthenticated } = useContext(AuthContext)
+  const { profile } = useContext(ProfileContext)
+  const [isHover, setIsHover] = useState(false)
   return (
     <Center>
       <Flex
@@ -69,6 +77,40 @@ function Header() {
         >
           Cart
         </Text>
+        {profile.userType === 'ADMIN' && (
+          <Menu>
+            <MenuButton>
+              <Text
+                mx="2"
+                p="1"
+                onClick={() => history.push('/admin')}
+                _hover={{
+                  boxShadow: 'md',
+                  cursor: 'pointer',
+                  border: '1px',
+                  rounded: 'xl'
+                }}
+                _active={{ boxShadow: 'lg' }}
+              >
+                Admin
+              </Text>
+            </MenuButton>
+            <MenuList>
+              <MenuItem onClick={() => history.push('/admin/create/product')}>
+                Create Product
+              </MenuItem>
+              <MenuItem onClick={() => history.push('/admin/manage/product')}>
+                Manage Product
+              </MenuItem>
+              <MenuItem onClick={() => history.push('/admin/manage/stock')}>
+                Manage Stock
+              </MenuItem>
+              <MenuItem onClick={() => history.push('/admin/manage/order')}>
+                Manage Order
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        )}
         <Spacer />
         {!isAuthenticated && (
           <Text

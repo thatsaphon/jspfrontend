@@ -18,10 +18,12 @@ import localStorageService from '../services/localStorageService'
 import axios from '../config/axios'
 import { AuthContext } from '../contexts/AuthContextProvider'
 import { CartContext } from '../contexts/CartContextProvider'
+import { ProfileContext } from '../contexts/ProfileContextProvider'
 
 function LogInPage() {
   const history = useHistory()
   const { setIsAuthenticated } = useContext(AuthContext)
+  const { fetchProfile } = useContext(ProfileContext)
   const { fetchCart } = useContext(CartContext)
   const {
     handleSubmit,
@@ -34,6 +36,7 @@ function LogInPage() {
       const res = await axios.post('/login', data)
       localStorageService.setToken(res.data.token)
       setIsAuthenticated(true)
+      fetchProfile()
       fetchCart()
       history.push('/')
     } catch (err) {

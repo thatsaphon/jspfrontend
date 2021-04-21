@@ -2,14 +2,18 @@ import { Avatar } from '@chakra-ui/avatar'
 import { Box, Center, Circle, Flex, Text, Wrap } from '@chakra-ui/layout'
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs'
 import axios from '../config/axios'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Header from '../component/layout/Header'
 import UserOrder from '../component/profile/UserOrder'
 import UserProfile from '../component/profile/UserProfile'
 import UserSummary from '../component/profile/UserSummary'
+import { ProfileContext } from '../contexts/ProfileContextProvider'
+import { Input } from '@chakra-ui/input'
+import { FormControl, FormLabel } from '@chakra-ui/form-control'
 
 function ProfilePage() {
   const [orders, setOrders] = useState([])
+  const { profile } = useContext(ProfileContext)
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -30,15 +34,24 @@ function ProfilePage() {
           <Flex direction="column" align="center">
             <Circle boxSize="180px">
               <Avatar
-                name="Thatsaphon Sukanantatham"
+                src={profile.path}
+                name={`${profile.firstName} ${profile.lastName}`}
                 size="xl"
                 w="full"
                 h="full"
               />
             </Circle>
-            <Text as="u" mt={3}>
-              เปลี่ยนรูปภาพ
-            </Text>
+            <FormControl>
+              <FormLabel
+                mt={3}
+                textAlign="center"
+                textDecor="underline"
+                ml="12px"
+              >
+                เปลี่ยนรูปภาพ
+              </FormLabel>
+              <Input type="file" hidden />
+            </FormControl>
           </Flex>
         </Center>
         <Flex direction="column">

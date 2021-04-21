@@ -4,10 +4,12 @@ import { useContext } from 'react'
 import { useHistory } from 'react-router'
 import { AuthContext } from '../../contexts/AuthContextProvider'
 import { CartContext } from '../../contexts/CartContextProvider'
+import { ProfileContext } from '../../contexts/ProfileContextProvider'
 import localStorageService from '../../services/localStorageService'
 
 function AvatarMenu(children) {
   const { setIsAuthenticated } = useContext(AuthContext)
+  const { profile } = useContext(ProfileContext)
   const { setCart } = useContext(CartContext)
   const history = useHistory()
   const handleLogout = () => {
@@ -15,12 +17,14 @@ function AvatarMenu(children) {
     setIsAuthenticated(false)
     setCart([])
   }
+  console.log(profile)
   return (
     <Menu>
       <MenuButton>
         {/* Actions */}
         <Avatar
-          name="Thatsaphon Sukanantatham"
+          name={`${profile.firstName} ${profile.lastName}`}
+          src={profile.path}
           onClick={() => history.push('/profile')}
           _hover={{
             boxShadow: 'md',

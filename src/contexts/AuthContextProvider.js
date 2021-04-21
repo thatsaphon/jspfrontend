@@ -5,7 +5,8 @@ export const AuthContext = createContext()
 
 function AuthContextProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorageService.getToken()
+    localStorageService.getToken() &&
+      !localStorageService.getToken().startsWith('{')
   )
   const [user, setUser] = useState({})
   return (

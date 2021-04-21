@@ -14,16 +14,16 @@ import ProfileContextProvider from './contexts/ProfileContextProvider'
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <CartContextProvider>
-        <ProfileContextProvider>
+      <ProfileContextProvider>
+        <CartContextProvider>
           <BrowserRouter>
             <ChakraProvider theme={theme}>
               <Fonts />
               <App />
             </ChakraProvider>
           </BrowserRouter>
-        </ProfileContextProvider>
-      </CartContextProvider>
+        </CartContextProvider>
+      </ProfileContextProvider>
     </AuthContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
