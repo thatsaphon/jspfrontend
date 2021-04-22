@@ -1,4 +1,4 @@
-import { Center, Image } from "@chakra-ui/react"
+import { Box, Center, Flex, Image } from '@chakra-ui/react'
 
 function Logo() {
   return (

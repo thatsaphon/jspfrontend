@@ -95,25 +95,29 @@ function RegisterPage() {
   }
 
   const handleSubmitRegister = async (data) => {
-    // const newData = { ...data, address }
-    console.log(data)
-    const formData = new FormData()
-    console.log(data.avartar[0])
-    formData.append('image', data.avartar[0])
-    formData.append('username', data.username)
-    formData.append('password', data.password)
-    formData.append('firstName', data.firstName)
-    formData.append('lastName', data.lastName)
-    formData.append('phoneNumber', data.phoneNumber)
-    formData.append('email', data.email)
-    formData.append('textAddress', data.textAddress)
-    formData.append('province', address.province)
-    formData.append('district', address.district)
-    formData.append('subDistrict', address.subDistrict)
-    formData.append('postCode', address.postCode)
+    // const formData = new FormData()
+    // console.log(data.avartar[0])
+    // formData.append('image', data.avartar[0])
+    // formData.append('username', data.username)
+    // formData.append('password', data.password)
+    // formData.append('firstName', data.firstName)
+    // formData.append('lastName', data.lastName)
+    // formData.append('phoneNumber', data.phoneNumber)
+    // formData.append('email', data.email)
+    // formData.append('textAddress', data.textAddress)
+    // formData.append('province', address.province)
+    // formData.append('district', address.district)
+    // formData.append('subDistrict', address.subDistrict)
+    // formData.append('postCode', address.postCode)
     // console.log(address)
     // formData.append({ ...data, ...address })
-    const res = await axios.post('/register', formData)
+    const newData = { ...data, ...address }
+    console.log(newData)
+    const res = await axios.post('/register', newData)
+    localStorageService.setToken(res.data.token)
+    setIsAuthenticated(true)
+    fetchProfile()
+    history.push('/')
   }
 
   const [show, setShow] = useState(false)
@@ -215,7 +219,7 @@ function RegisterPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <InputGroup>
+            {/* <InputGroup>
               <Flex>
                 <InputLeftElement h="32px" size="sm" placeholder="รูปภาพ">
                   <Text ml="2rem" textAlign="center">
@@ -232,7 +236,7 @@ function RegisterPage() {
                   // onChange={(e) => setEmail(e.target.value)}
                 />
               </Flex>
-            </InputGroup>
+            </InputGroup> */}
             {/* ที่อยู่ */}
             <Input
               placeholder="บ้านเลขที่ / อาคาร / หมู่บ้าน"
