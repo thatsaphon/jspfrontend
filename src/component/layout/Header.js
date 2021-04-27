@@ -10,7 +10,9 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button
+  Button,
+  Box,
+  Container
 } from '@chakra-ui/react'
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -28,9 +30,10 @@ function Header() {
       <Flex
         // m={[2, 3]}
         mb={3}
+        minW="350px"
         w="full"
         p="3"
-        bg="orange.50"
+        bg="orange.100"
         // border="2px solid darkblue"
         borderRadius="xl"
         align="flex-end"
