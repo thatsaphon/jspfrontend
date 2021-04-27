@@ -14,21 +14,48 @@ import AdminCreateProduct from './pages/AdminCreateProduct'
 import AdminManageProduct from './pages/AdminManageProduct'
 import AdminManageStock from './pages/AdminManageStock'
 import AdminManageOrder from './pages/AdminManageOrder'
+import { useContext } from 'react'
+import { ProfileContext } from './contexts/ProfileContextProvider'
 
 function App() {
+  const { profile } = useContext(ProfileContext)
+  const adminRoute = [
+    { path: '/admin/create/product', component: AdminCreateProduct },
+    { path: '/admin/manage/product', component: AdminManageProduct },
+    { path: '/admin/manage/stock', component: AdminManageStock },
+    { path: '/admin/manage/order', component: AdminManageOrder }
+  ]
+  const privateRoute = [{ path: '/profile', component: ProfilePage }]
+  const publicRoute = [
+    { path: '/register', component: RegisterPage },
+    { path: '/login', component: LogInPage }
+  ]
   return (
     <>
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/product" component={ProductPage} />
         <Route exact path="/design-system" component={DesignSystemPage} />
-        <Route exact path="/login" component={LogInPage} />
-        <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/cart" component={CartPage} />
         <Route exact path="/product/:id" component={SingleProductPage} />
-        <Route exact path="/profile" component={ProfilePage} />
         <Route exact path="/order/:id" component={SingleOrderPage} />
-        <Route
+        {!profile &&
+          publicRoute.map((item, index) => (
+            <Route exact path={item.path} component={item.component} />
+          ))}
+        {/* <Route exact path="/login" component={LogInPage} />
+        <Route exact path="/register" component={RegisterPage} /> */}
+        {profile &&
+          privateRoute.map((item, index) => (
+            <Route exact path={item.path} component={item.component} />
+          ))}
+        {/* <Route exact path="/profile" component={ProfilePage} /> */}
+        {profile &&
+          profile.userType === 'ADMIN' &&
+          adminRoute.map((item, index) => (
+            <Route exact path={item.path} component={item.component} />
+          ))}
+        {/* <Route
           exact
           path="/admin/create/product"
           component={AdminCreateProduct}
@@ -39,7 +66,8 @@ function App() {
           component={AdminManageProduct}
         />
         <Route exact path="/admin/manage/stock" component={AdminManageStock} />
-        <Route exact path="/admin/manage/order" component={AdminManageOrder} />
+        <Route exact path="/admin/manage/order" component={AdminManageOrder} /> */}
+        {/* <Redirect to="/" /> */}
       </Switch>
     </>
   )
