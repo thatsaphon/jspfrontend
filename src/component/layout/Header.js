@@ -35,7 +35,7 @@ function Header() {
         p="3"
         bg="orange.100"
         // border="2px solid darkblue"
-        borderRadius="xl"
+        // borderRadius="xl"
         align="flex-end"
       >
         <Text

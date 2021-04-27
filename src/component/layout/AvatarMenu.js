@@ -9,13 +9,14 @@ import localStorageService from '../../services/localStorageService'
 
 function AvatarMenu(children) {
   const { setIsAuthenticated } = useContext(AuthContext)
-  const { profile } = useContext(ProfileContext)
+  const { profile, setProfile } = useContext(ProfileContext)
   const { setCart } = useContext(CartContext)
   const history = useHistory()
   const handleLogout = () => {
     localStorageService.clearToken()
     setIsAuthenticated(false)
     setCart([])
+    setProfile(false)
   }
   console.log(profile)
   return (

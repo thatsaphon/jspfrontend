@@ -10,7 +10,7 @@ function HomePage() {
       <Header />
       <Logo />
       <TextContent />
-      <ProductContainer />
+      {/* <ProductContainer /> */}
     </Box>
   )
 }

@@ -67,7 +67,7 @@ function App() {
         />
         <Route exact path="/admin/manage/stock" component={AdminManageStock} />
         <Route exact path="/admin/manage/order" component={AdminManageOrder} /> */}
-        {/* <Redirect to="/" /> */}
+        <Redirect to="/" />
       </Switch>
     </>
   )
