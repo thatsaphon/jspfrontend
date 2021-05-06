@@ -23,13 +23,44 @@ function SingleOrderPage() {
   const params = useParams()
   const [order, setOrder] = useState({ TransactionItems: [] })
   const { profile } = useContext(ProfileContext)
+  const fetchOrder = async () => {
+    const res = await axios.get('/order/' + params.id)
+    setOrder(res.data.order)
+  }
   useEffect(() => {
-    const fetchOrder = async () => {
-      const res = await axios.get('/order/' + params.id)
-      setOrder(res.data.order)
-    }
     fetchOrder()
   }, [])
+
+  const handleCancelOrder = async () => {
+    try {
+      const res = await axios.put('/order/' + params.id, {
+        status: 'CANCELLED'
+      })
+      fetchOrder()
+    } catch (err) {
+      console.dir(err)
+    }
+  }
+  const formData = new FormData()
+  const handleUploadSlip = (e) => {
+    console.log(e.target.files[0])
+    formData.delete('image')
+    formData.append('image', e.target.files[0])
+  }
+  const handleAddSlip = async () => {
+    try {
+      await axios.post('/order/slip/' + params.id, formData)
+      await axios.put('/order/' + params.id, {
+        status: 'WAITING_PAYMENT_APPROVAL'
+      })
+      console.log(formData)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  // const {}
+
   return (
     <Box bg="gray.10">
       <Header />
@@ -61,16 +92,42 @@ function SingleOrderPage() {
               </Box>
               <Spacer />
               <Box>
-                <Badge
-                  fontSize="sm"
-                  bg="yellow.500"
-                  fontWeight="normal"
-                  px={2}
-                  rounded="20px"
-                  color="muted.100"
-                >
-                  รอตรวจสอบการชำระเงิน
-                </Badge>
+                {order.status === 'ORDERED' && (
+                  <Badge
+                    fontSize="sm"
+                    bg="yellow.500"
+                    fontWeight="normal"
+                    px={2}
+                    rounded="20px"
+                    color="muted.100"
+                  >
+                    รอตรวจสอบการชำระเงิน
+                  </Badge>
+                )}
+                {order.status === 'CANCELLED' && (
+                  <Badge
+                    fontSize="sm"
+                    bg="red.500"
+                    fontWeight="normal"
+                    px={2}
+                    rounded="20px"
+                    color="muted.100"
+                  >
+                    คำสั่งซื้อถูกยกเลิก
+                  </Badge>
+                )}
+                {order.status === 'WAITING_PAYMENT_APPROVAL' && (
+                  <Badge
+                    fontSize="sm"
+                    bg="blue.500"
+                    fontWeight="normal"
+                    px={2}
+                    rounded="20px"
+                    color="muted.100"
+                  >
+                    รอตรวจสอบการชำระเงิน
+                  </Badge>
+                )}
               </Box>
             </Flex>
             <Flex mb={5} wrap="wrap" direction="column">
@@ -93,25 +150,23 @@ function SingleOrderPage() {
         </Center>
         <form>
           <Flex>
-            <FormControl>
-              <Container maxW="md">
+            <Container maxW="md">
+              <FormControl>
                 <FormLabel _hover={{ cursor: 'pointer' }}>
                   <Flex align="end" justify="center">
-                    <Flex>
-                      <Button size="xs" as="button" mr={1}>
-                        อัพโหลดสลิป
-                      </Button>
-                      <Text>:</Text>
-                    </Flex>
-                    <Text ml={2} noOfLines={1}>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Asperiores, voluptate..jpg
+                    <Text fontSize="sm" mr={1} textDecor="underline">
+                      อัพโหลดสลิป
                     </Text>
                   </Flex>
                 </FormLabel>
-              </Container>
-              <Input type="file" hidden />
-            </FormControl>
+                <Input
+                  type="file"
+                  onChange={handleUploadSlip}
+                  size="sm"
+                  mb={2}
+                />
+              </FormControl>
+            </Container>
           </Flex>
           <Flex justify="center">
             <Button
@@ -120,6 +175,7 @@ function SingleOrderPage() {
               _hover={{ bg: 'orangeMain.200', boxShadow: 'md' }}
               _active={{ boxShadow: 'lg' }}
               mx={1}
+              onClick={handleAddSlip}
             >
               ยืนยันการจ่ายเงิน
             </Button>
@@ -128,6 +184,7 @@ function SingleOrderPage() {
               // bg="gray.100"
               _hover={{ bg: 'gray.200', boxShadow: 'md' }}
               mx={1}
+              onClick={handleCancelOrder}
             >
               ยกเลิกคำสั่งซื้อ
             </Button>

@@ -39,13 +39,13 @@ function App() {
         <Route exact path="/cart" component={CartPage} />
         <Route exact path="/product/:id" component={SingleProductPage} />
         <Route exact path="/order/:id" component={SingleOrderPage} />
-        {!profile &&
+        {!profile.id &&
           publicRoute.map((item, index) => (
             <Route exact path={item.path} component={item.component} />
           ))}
         {/* <Route exact path="/login" component={LogInPage} />
         <Route exact path="/register" component={RegisterPage} /> */}
-        {profile &&
+        {profile.id &&
           privateRoute.map((item, index) => (
             <Route exact path={item.path} component={item.component} />
           ))}

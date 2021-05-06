@@ -15,7 +15,6 @@ import { useForm } from 'react-hook-form'
 function ProfilePage() {
   const [orders, setOrders] = useState([])
   const { profile, fetchProfile, setProfile } = useContext(ProfileContext)
-  const { register, handleSubmit } = useForm()
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -29,7 +28,7 @@ function ProfilePage() {
   }, [])
   const handleChangePicture = async (e) => {
     try {
-      console.log(e.target.files[0])
+      // console.log(e.target.files[0])
       const formData = new FormData()
       formData.append('image', e.target.files[0])
       const res = await axios.post('/user/picture', formData)
