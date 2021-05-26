@@ -30,6 +30,7 @@ function RegisterPage() {
   const [provinces, setProvinces] = useState([])
   const [districts, setDistricts] = useState([])
   const [subDistricts, setSubDistricts] = useState([])
+  const [isPasswordNotMatched, setIsPasswordNotMatched] = useState(false)
 
   const { setIsAuthenticated } = useContext(AuthContext)
   const { fetchProfile } = useContext(ProfileContext)
@@ -95,22 +96,8 @@ function RegisterPage() {
   }
 
   const handleSubmitRegister = async (data) => {
-    // const formData = new FormData()
-    // console.log(data.avartar[0])
-    // formData.append('image', data.avartar[0])
-    // formData.append('username', data.username)
-    // formData.append('password', data.password)
-    // formData.append('firstName', data.firstName)
-    // formData.append('lastName', data.lastName)
-    // formData.append('phoneNumber', data.phoneNumber)
-    // formData.append('email', data.email)
-    // formData.append('textAddress', data.textAddress)
-    // formData.append('province', address.province)
-    // formData.append('district', address.district)
-    // formData.append('subDistrict', address.subDistrict)
-    // formData.append('postCode', address.postCode)
-    // console.log(address)
-    // formData.append({ ...data, ...address })
+    if (data.password !== data.confirmPassword)
+      return setIsPasswordNotMatched(true)
     const newData = { ...data, ...address }
     console.log(newData)
     const res = await axios.post('/register', newData)
@@ -121,6 +108,7 @@ function RegisterPage() {
   }
 
   const [show, setShow] = useState(false)
+  const [show2, setShow2] = useState(false)
   return (
     <Box>
       <Header />
@@ -155,6 +143,11 @@ function RegisterPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
+            {isPasswordNotMatched && (
+              <Text fontSize="xs" color="red">
+                *รหัสผ่านไม่เหมือนกัน
+              </Text>
+            )}
             <InputGroup size="md">
               <Input
                 placeholder="รหัสผ่าน"
@@ -165,7 +158,10 @@ function RegisterPage() {
                 mb={2}
                 {...register('password')}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                  if (isPasswordNotMatched) setIsPasswordNotMatched(false)
+                }}
               />
               <InputRightElement w="4.5rem" h="32px">
                 <Button
@@ -176,6 +172,31 @@ function RegisterPage() {
                   boxSizing="border-box"
                 >
                   {show ? 'Hide' : 'Show'}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
+            <InputGroup size="md">
+              <Input
+                placeholder="ยืนยันรหัสผ่าน"
+                type={show2 ? 'text' : 'password'}
+                pr="4.5rem"
+                size="sm"
+                bg="muted.100"
+                mb={2}
+                {...register('confirmPassword')}
+                onChange={() => {
+                  if (isPasswordNotMatched) setIsPasswordNotMatched(false)
+                }}
+              />
+              <InputRightElement w="4.5rem" h="32px">
+                <Button
+                  size="xs"
+                  h="20px"
+                  colorScheme="blue"
+                  onClick={() => setShow2(!show2)}
+                  boxSizing="border-box"
+                >
+                  {show2 ? 'Hide' : 'Show'}
                 </Button>
               </InputRightElement>
             </InputGroup>

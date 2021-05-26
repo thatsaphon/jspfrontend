@@ -47,13 +47,13 @@ function SingleOrderPage() {
     formData.delete('image')
     formData.append('image', e.target.files[0])
   }
-  const handleAddSlip = async () => {
+  const handleAddSlip = async (e) => {
     try {
+      e.preventDefault()
       await axios.post('/order/slip/' + params.id, formData)
       await axios.put('/order/' + params.id, {
         status: 'WAITING_PAYMENT_APPROVAL'
       })
-      console.log(formData)
     } catch (err) {
       console.log(err)
     }

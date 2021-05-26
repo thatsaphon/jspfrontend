@@ -97,7 +97,7 @@ function LogInPage() {
               <Button type="submit" bg="blueMain.100" mt={3}>
                 Log in
               </Button>
-              <Text as="u">forget-password</Text>
+              {/* <Text as="u">forget-password</Text> */}
               <Center w="300px" borderBottom="1px solid gray" mt="3"></Center>
               <Text
                 as="u"

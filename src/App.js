@@ -16,12 +16,14 @@ import AdminManageStock from './pages/AdminManageStock'
 import AdminManageOrder from './pages/AdminManageOrder'
 import { useContext } from 'react'
 import { ProfileContext } from './contexts/ProfileContextProvider'
+import AdminEditProduct from './pages/AdminEditProduct'
 
 function App() {
   const { profile } = useContext(ProfileContext)
   const adminRoute = [
     { path: '/admin/create/product', component: AdminCreateProduct },
     { path: '/admin/manage/product', component: AdminManageProduct },
+    { path: '/admin/manage/product/:id', component: AdminEditProduct },
     { path: '/admin/manage/stock', component: AdminManageStock },
     { path: '/admin/manage/order', component: AdminManageOrder }
   ]
@@ -41,33 +43,33 @@ function App() {
         <Route exact path="/order/:id" component={SingleOrderPage} />
         {!profile.id &&
           publicRoute.map((item, index) => (
-            <Route exact path={item.path} component={item.component} />
+            <Route
+              exact
+              path={item.path}
+              component={item.component}
+              key={index}
+            />
           ))}
-        {/* <Route exact path="/login" component={LogInPage} />
-        <Route exact path="/register" component={RegisterPage} /> */}
         {profile.id &&
           privateRoute.map((item, index) => (
-            <Route exact path={item.path} component={item.component} />
+            <Route
+              exact
+              path={item.path}
+              component={item.component}
+              key={index}
+            />
           ))}
-        {/* <Route exact path="/profile" component={ProfilePage} /> */}
         {profile &&
           profile.userType === 'ADMIN' &&
           adminRoute.map((item, index) => (
-            <Route exact path={item.path} component={item.component} />
+            <Route
+              exact
+              path={item.path}
+              component={item.component}
+              key={index}
+            />
           ))}
-        {/* <Route
-          exact
-          path="/admin/create/product"
-          component={AdminCreateProduct}
-        />
-        <Route
-          exact
-          path="/admin/manage/product"
-          component={AdminManageProduct}
-        />
-        <Route exact path="/admin/manage/stock" component={AdminManageStock} />
-        <Route exact path="/admin/manage/order" component={AdminManageOrder} /> */}
-        <Redirect to="/" />
+        {/* <Redirect to="/" /> */}
       </Switch>
     </>
   )
