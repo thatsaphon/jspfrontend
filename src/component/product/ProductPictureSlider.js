@@ -1,5 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from '@chakra-ui/icons'
-import { AspectRatio, Box, Img, Square } from '@chakra-ui/react'
+import { Box, Img } from '@chakra-ui/react'
 import React from 'react'
 
 function ProductPictureSlider({ imgPath }) {

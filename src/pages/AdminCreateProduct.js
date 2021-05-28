@@ -13,13 +13,6 @@ import { set, useForm } from 'react-hook-form'
 import Header from '../component/layout/Header'
 import { Select } from '@chakra-ui/select'
 import {
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList
-} from '@chakra-ui/menu'
-import {
   Popover,
   PopoverContent,
   PopoverHeader,

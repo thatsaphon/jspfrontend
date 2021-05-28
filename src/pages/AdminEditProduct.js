@@ -13,13 +13,6 @@ import { set, useForm } from 'react-hook-form'
 import Header from '../component/layout/Header'
 import { Select } from '@chakra-ui/select'
 import {
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuItem,
-  MenuList
-} from '@chakra-ui/menu'
-import {
   Popover,
   PopoverContent,
   PopoverHeader,
@@ -27,7 +20,6 @@ import {
 } from '@chakra-ui/popover'
 import { Portal } from '@chakra-ui/portal'
 import { useHistory, useParams } from 'react-router'
-import { Img } from '@chakra-ui/image'
 import ProductPictureSlider from '../component/product/ProductPictureSlider'
 import Icon from '@chakra-ui/icon'
 import { GiCircle } from 'react-icons/gi'
@@ -112,6 +104,16 @@ function AdminEditProduct() {
     const res = await axios.post('/product/image/' + params.id, formData)
     fetchProduct()
   }
+
+  const handleNextSlider = () => {
+    if (selectedImg === product.ProductImages.length - 1) setSelectedImg(0)
+    else setSelectedImg(selectedImg + 1)
+  }
+  const handleBackSlider = () => {
+    if (selectedImg === 0) setSelectedImg(product.ProductImages.length - 1)
+    else setSelectedImg(selectedImg - 1)
+  }
+
   return (
     <Box>
       <Header />
@@ -270,7 +272,8 @@ function AdminEditProduct() {
                 pl={1}
                 pr={3}
                 _hover={{ cursor: 'pointer', bg: 'gray.300', opacity: '100%' }}
-                onClick={() => setSelectedImg(selectedImg - 1)}
+                // onClick={() => setSelectedImg(selectedImg - 1)}
+                onClick={handleBackSlider}
               >
                 <ArrowLeftIcon />
               </Box>
@@ -283,7 +286,8 @@ function AdminEditProduct() {
                 pl={3}
                 pr={1}
                 _hover={{ cursor: 'pointer', bg: 'gray.300', opacity: '100%' }}
-                onClick={() => setSelectedImg(selectedImg + 1)}
+                // onClick={() => setSelectedImg(selectedImg + 1)}
+                onClick={handleNextSlider}
               >
                 <ArrowRightIcon />
               </Box>

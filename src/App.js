@@ -1,4 +1,3 @@
-import logo from './logo.svg'
 import './App.css'
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage'
@@ -17,6 +16,7 @@ import AdminManageOrder from './pages/AdminManageOrder'
 import { useContext } from 'react'
 import { ProfileContext } from './contexts/ProfileContextProvider'
 import AdminEditProduct from './pages/AdminEditProduct'
+import AdminManageSingleOrder from './pages/AdminManageSingleOrder'
 
 function App() {
   const { profile } = useContext(ProfileContext)
@@ -25,7 +25,8 @@ function App() {
     { path: '/admin/manage/product', component: AdminManageProduct },
     { path: '/admin/manage/product/:id', component: AdminEditProduct },
     { path: '/admin/manage/stock', component: AdminManageStock },
-    { path: '/admin/manage/order', component: AdminManageOrder }
+    { path: '/admin/manage/order', component: AdminManageOrder },
+    { path: '/admin/manage/order/:id', component: AdminManageSingleOrder }
   ]
   const privateRoute = [{ path: '/profile', component: ProfilePage }]
   const publicRoute = [

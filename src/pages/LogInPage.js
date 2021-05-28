@@ -2,15 +2,6 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@chakra-ui/button'
 import { Input } from '@chakra-ui/input'
 import { Box, Center, Flex, Text, Wrap } from '@chakra-ui/layout'
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Alert,
-  AlertIcon,
-  AlertTitle
-} from '@chakra-ui/react'
 import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import Header from '../component/layout/Header'
@@ -19,6 +10,7 @@ import axios from '../config/axios'
 import { AuthContext } from '../contexts/AuthContextProvider'
 import { CartContext } from '../contexts/CartContextProvider'
 import { ProfileContext } from '../contexts/ProfileContextProvider'
+import FacebookLogin from '../component/profile/FacebookLogin'
 
 function LogInPage() {
   const history = useHistory()
@@ -110,6 +102,7 @@ function LogInPage() {
               >
                 register
               </Text>
+              <FacebookLogin />
             </Flex>
           </form>
         </Box>

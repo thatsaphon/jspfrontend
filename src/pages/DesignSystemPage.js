@@ -1,12 +1,4 @@
-import {
-  Box,
-  Center,
-  Stack,
-  Wrap,
-  Text,
-  Flex,
-  Container
-} from '@chakra-ui/react'
+import { Box, Center, Stack, Wrap, Text } from '@chakra-ui/react'
 
 function DesignSystemPage() {
   return (

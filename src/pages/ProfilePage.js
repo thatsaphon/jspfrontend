@@ -10,7 +10,7 @@ import UserSummary from '../component/profile/UserSummary'
 import { ProfileContext } from '../contexts/ProfileContextProvider'
 import { Input } from '@chakra-ui/input'
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
-import { useForm } from 'react-hook-form'
+// import { useForm } from 'react-hook-form'
 
 function ProfilePage() {
   const [orders, setOrders] = useState([])
@@ -18,7 +18,7 @@ function ProfilePage() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await axios.get('/order')
+        const res = await axios.get('/order/user')
         setOrders(res.data.order)
       } catch (err) {
         console.dir(err)

@@ -18,7 +18,6 @@ import { CartContext } from '../../contexts/CartContextProvider'
 import RemoveFromCartAlert from './RemoveFromCartAlert'
 
 function ProductContainer({
-  cartItemId,
   product,
   description,
   quantity,

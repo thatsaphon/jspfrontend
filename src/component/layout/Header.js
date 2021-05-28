@@ -2,19 +2,13 @@ import {
   Center,
   Flex,
   Spacer,
-  Avatar,
   Text,
-  Image,
-  Square,
   Menu,
   MenuButton,
   MenuList,
-  MenuItem,
-  Button,
-  Box,
-  Container
+  MenuItem
 } from '@chakra-ui/react'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContextProvider'
 import { ProfileContext } from '../../contexts/ProfileContextProvider'
@@ -24,7 +18,7 @@ function Header() {
   const history = useHistory()
   const { isAuthenticated } = useContext(AuthContext)
   const { profile } = useContext(ProfileContext)
-  const [isHover, setIsHover] = useState(false)
+  // const [isHover, setIsHover] = useState(false)
   return (
     <Center>
       <Flex
@@ -105,9 +99,9 @@ function Header() {
               <MenuItem onClick={() => history.push('/admin/manage/product')}>
                 Manage Product
               </MenuItem>
-              <MenuItem onClick={() => history.push('/admin/manage/stock')}>
+              {/* <MenuItem onClick={() => history.push('/admin/manage/stock')}>
                 Manage Stock
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem onClick={() => history.push('/admin/manage/order')}>
                 Manage Order
               </MenuItem>

@@ -1,19 +1,8 @@
 import Header from '../component/layout/Header'
-import ProductContainer from '../component/layout/ProductContainer'
 import ProductCard from '../component/ProductCard'
-import {
-  Box,
-  Center,
-  Container,
-  Flex,
-  Grid,
-  Heading,
-  Stack,
-  Wrap
-} from '@chakra-ui/react'
+import { Box, Container, Flex, Heading } from '@chakra-ui/react'
 import { useContext, useEffect, useState } from 'react'
 import axios from '../config/axios'
-import { ProfileContext } from '../contexts/ProfileContextProvider'
 import { CartContext } from '../contexts/CartContextProvider'
 
 function ProductPage() {
@@ -57,6 +46,7 @@ function ProductPage() {
                 price={item.price}
                 imgPath={item.imgPath}
                 cartQuantity={+item.cartQuantity}
+                ProductImages={item.ProductImages}
               />
             ))}
           </Flex>

@@ -9,20 +9,21 @@ import {
   Flex,
   Heading,
   Spacer,
-  Text,
-  Wrap
+  Text
 } from '@chakra-ui/layout'
 import axios from '../config/axios'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Header from '../component/layout/Header'
-import { ProfileContext } from '../contexts/ProfileContextProvider'
+// import { ProfileContext } from '../contexts/ProfileContextProvider'
 import OrderItem from '../component/order/OrderItem'
 
 function SingleOrderPage() {
   const params = useParams()
   const [order, setOrder] = useState({ TransactionItems: [] })
-  const { profile } = useContext(ProfileContext)
+  const [file, setFile] = useState({})
+  const [isError, setIsError] = useState(false)
+  // const { profile } = useContext(ProfileContext)
   const fetchOrder = async () => {
     const res = await axios.get('/order/' + params.id)
     setOrder(res.data.order)
@@ -41,19 +42,22 @@ function SingleOrderPage() {
       console.dir(err)
     }
   }
-  const formData = new FormData()
   const handleUploadSlip = (e) => {
+    setFile(e.target.files[0])
     console.log(e.target.files[0])
-    formData.delete('image')
-    formData.append('image', e.target.files[0])
+    setIsError(false)
   }
   const handleAddSlip = async (e) => {
     try {
       e.preventDefault()
+      const formData = new FormData()
+      formData.append('image', file)
+      if (!file.name) return setIsError(true)
       await axios.post('/order/slip/' + params.id, formData)
       await axios.put('/order/' + params.id, {
         status: 'WAITING_PAYMENT_APPROVAL'
       })
+      fetchOrder()
     } catch (err) {
       console.log(err)
     }
@@ -101,7 +105,7 @@ function SingleOrderPage() {
                     rounded="20px"
                     color="muted.100"
                   >
-                    รอตรวจสอบการชำระเงิน
+                    ยังไม่ได้ชำระเงิน
                   </Badge>
                 )}
                 {order.status === 'CANCELLED' && (
@@ -125,7 +129,43 @@ function SingleOrderPage() {
                     rounded="20px"
                     color="muted.100"
                   >
-                    รอตรวจสอบการชำระเงิน
+                    รอตรวจสอบสลิป
+                  </Badge>
+                )}
+                {order.status === 'PAYMENT_RECEIVED' && (
+                  <Badge
+                    fontSize="sm"
+                    bg="green.400"
+                    fontWeight="normal"
+                    px={2}
+                    rounded="20px"
+                    color="muted.100"
+                  >
+                    ได้รับเงินแล้ว
+                  </Badge>
+                )}
+                {order.status === 'SHIPED' && (
+                  <Badge
+                    fontSize="sm"
+                    bg="green.300"
+                    fontWeight="normal"
+                    px={2}
+                    rounded="20px"
+                    color="muted.100"
+                  >
+                    จัดส่งแล้ว
+                  </Badge>
+                )}
+                {order.status === 'COMPLETED' && (
+                  <Badge
+                    fontSize="sm"
+                    bg="blue.500"
+                    fontWeight="normal"
+                    px={2}
+                    rounded="20px"
+                    color="muted.100"
+                  >
+                    สำเร็จ
                   </Badge>
                 )}
               </Box>
@@ -166,6 +206,11 @@ function SingleOrderPage() {
                   mb={2}
                 />
               </FormControl>
+              {isError && (
+                <Text color="red" textAlign="center">
+                  *ไม่พบไฟล์ที่อัพโหลด
+                </Text>
+              )}
             </Container>
           </Flex>
           <Flex justify="center">

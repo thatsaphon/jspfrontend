@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Spacer, Text } from '@chakra-ui/layout'
+import { Badge, Box, Flex, Grid, Spacer, Text } from '@chakra-ui/layout'
 import { useHistory } from 'react-router-dom'
 
 function UserOrder({ orders }) {
@@ -32,7 +32,78 @@ function UserOrder({ orders }) {
                 0
               )}
             </Text>
-            <Text>{item.status}</Text>
+            {item.status === 'ORDERED' && (
+              <Badge
+                fontSize="sm"
+                bg="yellow.500"
+                fontWeight="normal"
+                px={2}
+                rounded="20px"
+                color="muted.100"
+              >
+                ยังไม่ได้ชำระเงิน
+              </Badge>
+            )}
+            {item.status === 'CANCELLED' && (
+              <Badge
+                fontSize="sm"
+                bg="red.500"
+                fontWeight="normal"
+                px={2}
+                rounded="20px"
+                color="muted.100"
+              >
+                คำสั่งซื้อถูกยกเลิก
+              </Badge>
+            )}
+            {item.status === 'WAITING_PAYMENT_APPROVAL' && (
+              <Badge
+                fontSize="sm"
+                bg="blue.500"
+                fontWeight="normal"
+                px={2}
+                rounded="20px"
+                color="muted.100"
+              >
+                รอตรวจสอบสลิป
+              </Badge>
+            )}
+            {item.status === 'PAYMENT_RECEIVED' && (
+              <Badge
+                fontSize="sm"
+                bg="green.400"
+                fontWeight="normal"
+                px={2}
+                rounded="20px"
+                color="muted.100"
+              >
+                ได้รับเงินแล้ว
+              </Badge>
+            )}
+            {item.status === 'SHIPED' && (
+              <Badge
+                fontSize="sm"
+                bg="green.300"
+                fontWeight="normal"
+                px={2}
+                rounded="20px"
+                color="muted.100"
+              >
+                จัดส่งแล้ว
+              </Badge>
+            )}
+            {item.status === 'COMPLETED' && (
+              <Badge
+                fontSize="sm"
+                bg="green.500"
+                fontWeight="normal"
+                px={2}
+                rounded="20px"
+                color="muted.100"
+              >
+                สำเร็จ
+              </Badge>
+            )}
           </Box>
         </Flex>
       ))}

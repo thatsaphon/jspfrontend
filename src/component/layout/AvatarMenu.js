@@ -19,7 +19,6 @@ function AvatarMenu(children) {
     setProfile(false)
     fetchCart()
   }
-  console.log(profile)
   return (
     <Menu>
       <MenuButton>

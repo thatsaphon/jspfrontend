@@ -1,9 +1,4 @@
-import {
-  Input,
-  InputGroup,
-  InputLeftElement,
-  InputRightElement
-} from '@chakra-ui/input'
+import { Input, InputGroup, InputRightElement } from '@chakra-ui/input'
 import { Box, Wrap, Text, Flex } from '@chakra-ui/layout'
 import Header from '../component/layout/Header'
 import { Button } from '@chakra-ui/button'
