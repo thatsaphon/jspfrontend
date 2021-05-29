@@ -10,7 +10,7 @@ import axios from '../config/axios'
 import { AuthContext } from '../contexts/AuthContextProvider'
 import { CartContext } from '../contexts/CartContextProvider'
 import { ProfileContext } from '../contexts/ProfileContextProvider'
-import FacebookLogin from '../component/profile/FacebookLogin'
+import FacebookLogin from 'react-facebook-login'
 
 function LogInPage() {
   const history = useHistory()
@@ -26,6 +26,45 @@ function LogInPage() {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post('/login', data)
+      localStorageService.setToken(res.data.token)
+      setIsAuthenticated(true)
+      fetchProfile()
+      fetchCart()
+      history.push('/')
+    } catch (err) {
+      console.dir(err)
+    }
+  }
+
+  const responseFacebook = async (response) => {
+    try {
+      // response.preventDefault()
+      console.log(response)
+      const {
+        accessToken,
+        data_access_expiration_time,
+        expiresIn,
+        graphDomain,
+        id,
+        name,
+        signedRequest,
+        userID,
+        email,
+        picture: { data: url }
+      } = response
+      const res = await axios.post('/login/facebook', {
+        accessToken,
+        data_access_expiration_time,
+        expiresIn,
+        graphDomain,
+        id,
+        name,
+        signedRequest,
+        userID,
+        email,
+        profilePicture: url
+      })
+      console.log(res.data.token)
       localStorageService.setToken(res.data.token)
       setIsAuthenticated(true)
       fetchProfile()
@@ -102,7 +141,17 @@ function LogInPage() {
               >
                 register
               </Text>
-              <FacebookLogin />
+              <FacebookLogin
+                appId="294840218738815"
+                autoLoad={true}
+                fields="name,email,picture"
+                callback={responseFacebook}
+                // render={(renderProps) => (
+                //   <button onClick={renderProps.onClick}>
+                //     This is my custom FB button
+                //   </button>
+                // )}
+              />
             </Flex>
           </form>
         </Box>

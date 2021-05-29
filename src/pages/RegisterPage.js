@@ -41,6 +41,9 @@ function RegisterPage() {
   }
   const fetchSubDistrict = async () => {
     if (!address.district) return null
+
+    console.log(address.province)
+    console.log(address.district)
     const res = await axios.get('/location/subdistrict/' + address.district)
     setSubDistricts(res.data.subDistricts)
   }
